@@ -11,7 +11,7 @@ export default function Routing() {
         <Route exact path="/" element={<HomePage />} />
         <Route exact path="/pokemons" element={<PreviewPage />} />
         <Route exact path="/pokedex" element={<PokedexPage />} />
-        <Route exact path="/details" element={<DetailsPage />} />
+        <Route exact path="/details/:id" element={<DetailsPage />} />
       </Routes>
 
   );

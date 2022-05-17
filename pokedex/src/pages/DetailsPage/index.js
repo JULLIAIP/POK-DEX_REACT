@@ -1,16 +1,39 @@
 import Header from "../../components/header";
-import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon';
+import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
+import { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
-export default function DetailsPage(){
-    
+export default function DetailsPage() {
+  const [pokémonsDetails, setPokémonsDetails] = useState([]);
+  console.log(pokémonsDetails.sprites);
 
-    return(
-        <div>
-        <Header
+  const id = useParams();
+
+  const getDetails = useCallback(() => {
+    axios
+      .get(`https://pokeapi.co/api/v2/pokemon/${id.id}`)
+      .then((res) => setPokémonsDetails(res.data))
+      .catch((err) => console.log(err));
+  }, [id]);
+  useEffect(() => {
+    getDetails();
+  }, [getDetails]);
+
+  return (
+    <div>
+      <Header
         title="Ver Pokémons"
         to="/pokemons"
         icon={<CatchingPokemonIcon variant="contained" color="secondary" />}
       />
-        </div>
-    )
+      <img
+        src={
+          (pokémonsDetails && pokémonsDetails.sprites.front_default) ||
+          pokémonsDetails.sprites.front_female
+        }
+        alt=""
+      />
+    </div>
+  );
 }
