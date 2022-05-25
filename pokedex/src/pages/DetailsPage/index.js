@@ -1,4 +1,4 @@
-import Header from "../../components/header";
+import Header from "../../components/Header";
 import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -16,6 +16,7 @@ export default function DetailsPage() {
       .then((res) => setPokémonsDetails(res.data))
       .catch((err) => console.log(err));
   }, [id]);
+  
   useEffect(() => {
     getDetails();
   }, [getDetails]);
@@ -29,8 +30,9 @@ export default function DetailsPage() {
       />
       <img
         src={
-          (pokémonsDetails && pokémonsDetails.sprites.front_default) ||
-          pokémonsDetails.sprites.front_female
+          (pokémonsDetails &&
+            pokémonsDetails.sprites &&
+            pokémonsDetails.sprites.front_default) 
         }
         alt=""
       />

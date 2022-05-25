@@ -1,35 +1,46 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { Button, CardActionArea } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { ContextPokémons } from "../../hooks/useContextPokémons";
+import {
+  BottomCard,
+  ButtonsAlign,
+  CardContain,
+  ImageContain,
+  TopCard,
+} from "./style";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import CircleIcon from "@mui/icons-material/Circle";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 export default function ActionAreaCard(props) {
-  const { addPokémon } = React.useContext(ContextPokémons);
   return (
-    <Card sx={{ maxWidth: "100%" }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image={props.item.sprites.front_default}
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {props.item.forms[0].name}
-          </Typography>
-          <Button variant="contained">
-            <NavLink to={`/details/${props.item.id}`}>Ver Detalhes</NavLink>
-          </Button>
-          <Button variant="contained" onClick={() => addPokémon(props.item)}>
-            Adcionar à pokédex
-          </Button>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    <CardContain>
+      <TopCard>
+        <CircleIcon />
+        <MoreHorizIcon />
+      </TopCard>
+      <ImageContain>
+        <img src={props.item.sprites.front_default} alt={props.item.id} />{" "}
+      </ImageContain>
+      <BottomCard>
+        <h5>{props.item.forms[0].name}</h5>
+        <ButtonsAlign>
+          <IconButton aria-label="verDetalhes" size="small"  title={'VER DETALHES'}>
+            <NavLink to={`/details/${props.item.id}`}>
+              <RemoveRedEyeIcon />
+            </NavLink>
+          </IconButton>
+
+          <IconButton
+            title={props.action}
+            aria-label="action"
+            size="small"
+            onClick={() => props.fc(props.item)}
+          >
+            {props.icon}
+          </IconButton>
+        </ButtonsAlign>
+      </BottomCard>
+    </CardContain>
   );
 }

@@ -1,12 +1,13 @@
-import Header from "../../components/header";
+import Header from "../../components/Header";
 import HomeIcon from "@mui/icons-material/Home";
 import { Grid } from "@mui/material";
-import ActionAreaCard from "../../components/card";
+import ActionAreaCard from "../../components/Card";
 import { useContext } from "react";
 import { ContextPokémons } from "../../hooks/useContextPokémons";
+import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
 
 export default function PreviewPage() {
-  const listPokemóns = useContext(ContextPokémons);
+  const { addPokémon, pokémonsCompleted } = useContext(ContextPokémons);
   return (
     <div>
       <Header
@@ -14,16 +15,28 @@ export default function PreviewPage() {
         to="/"
         icon={<HomeIcon variant="contained" color="secondary" />}
       />
-      {listPokemóns.pokémonsCompleted &&
-        listPokemóns.pokémonsCompleted.map((item) => {
-          return (
-            <Grid container spacing={2} key={item.id+Math.random()}>
-              <Grid item lg={3} md={4} sm={6} xs={12}>
-                <ActionAreaCard item={item} />
+      <Grid container spacing={2}>
+        {pokémonsCompleted &&
+          pokémonsCompleted.map((item) => {
+            return (
+              <Grid
+                item
+                lg={2}
+                md={2}
+                sm={3}
+                xs={6}
+                key={item.id + Math.random()}
+              >
+                <ActionAreaCard
+                  item={item}
+                  action={"CAPTURAR"}
+                  icon={<CatchingPokemonIcon />}
+                  fc={addPokémon}
+                />
               </Grid>
-            </Grid>
-          );
-        })}
+            );
+          })}
+      </Grid>
     </div>
   );
 }

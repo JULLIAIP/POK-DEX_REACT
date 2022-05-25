@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import useStyles from "../../hooks/useStyle"
 
 export default function Header(props) {
+  // criando hooks de estilização conseguimos customizar o css dos componentes materialUI
   const classes = useStyles();
 
   return (

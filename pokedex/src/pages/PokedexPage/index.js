@@ -1,12 +1,13 @@
-import Header from "../../components/header";
+import Header from "../../components/Header";
 import HomeIcon from "@mui/icons-material/Home";
 import { useContext } from "react";
 import { ContextPokémons } from "../../hooks/useContextPokémons";
-import ActionAreaCard from "../../components/card";
+import ActionAreaCard from "../../components/Card";
 import { Grid } from "@mui/material";
+import DoDisturbOnIcon from "@mui/icons-material/DoDisturbOn";
 
 export default function PokedexPage() {
-  const { pokédex } = useContext(ContextPokémons);
+  const { pokédex, deletePokémon } = useContext(ContextPokémons);
 
   return (
     <div>
@@ -14,16 +15,22 @@ export default function PokedexPage() {
         to="/"
         icon={<HomeIcon variant="contained" color="secondary" />}
       />
-      {pokédex &&
-        pokédex.map((item) => {
-          return (
-            <Grid container spacing={2} key={item.id}>
-              <Grid item lg={3} md={4} sm={6} xs={12}>
-                <ActionAreaCard item={item} />
-              </Grid>
-            </Grid>
-          );
-        })}
+      <Grid container spacing={2}>
+        {pokédex.length > 0
+          ? pokédex.map((item) => {
+              return (
+                <Grid item lg={4} md={4} sm={6} xs={12} key={item.id}>
+                  <ActionAreaCard
+                    item={item}
+                    action={'REMOVER'}
+                    icon={<DoDisturbOnIcon />}
+                    fc={deletePokémon}
+                  />
+                </Grid>
+              );
+            })
+          : "A pokedéx está vazia"}
+      </Grid>
     </div>
   );
 }

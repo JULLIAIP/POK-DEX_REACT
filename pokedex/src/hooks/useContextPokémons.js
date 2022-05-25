@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export const ContextPokémons = React.createContext();
 
@@ -7,15 +8,22 @@ export function GlobalPokémons({ children }) {
   const [listPokemóns, setListPokémons] = useState([]);
   const [pokémonsCompleted, setPokémonsCompleted] = useState([]);
   const [pokédex, setPokédex] = useState([]);
-  console.log({pokédex})
+
 
   const addPokémon = (item) => {
     setPokédex((oldValue) => [...oldValue, item]);
+    toast("Pokémon Capturado!")
   };
 
-  const getPokémons = async () => {
-    await axios
-      .get("https://pokeapi.co/api/v2/pokemon?limit=20")
+  const deletePokémon = (item) => {
+    const filtered = pokédex.filter((element) =>
+      element.id !== item.id);
+    setPokédex(filtered);
+  };
+
+  const getPokémons = () => {
+    axios
+      .get("https://pokeapi.co/api/v2/pokemon")
       .then((res) => setListPokémons(res.data.results))
       .catch((err) => console.log(err));
   };
@@ -41,7 +49,15 @@ export function GlobalPokémons({ children }) {
   }, [getAllData]);
 
   return (
-    <ContextPokémons.Provider value={{ listPokemóns, pokémonsCompleted, pokédex,addPokémon }}>
+    <ContextPokémons.Provider
+      value={{
+        listPokemóns,
+        pokémonsCompleted,
+        pokédex,
+        addPokémon,
+        deletePokémon,
+      }}
+    >
       {children}
     </ContextPokémons.Provider>
   );
